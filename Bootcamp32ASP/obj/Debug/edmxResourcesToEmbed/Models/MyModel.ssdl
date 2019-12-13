@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Bootcamp32Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tb_item">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Stock" Type="int" Nullable="false" />
+    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="Supplier_id" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_m_supplier">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Email" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetimeoffset" Precision="7" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_tb_item_dbo_tb_m_supplier_Supplier_id">
+    <End Role="tb_m_supplier" Type="Self.tb_m_supplier" Multiplicity="0..1" />
+    <End Role="tb_item" Type="Self.tb_item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_m_supplier">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_item">
+        <PropertyRef Name="Supplier_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Bootcamp32ModelStoreContainer">
+    <EntitySet Name="tb_item" EntityType="Self.tb_item" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_m_supplier" EntityType="Self.tb_m_supplier" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_tb_item_dbo_tb_m_supplier_Supplier_id" Association="Self.FK_dbo_tb_item_dbo_tb_m_supplier_Supplier_id">
+      <End Role="tb_m_supplier" EntitySet="tb_m_supplier" />
+      <End Role="tb_item" EntitySet="tb_item" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

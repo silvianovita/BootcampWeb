@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Bootcamp32Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tb_item">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Stock" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Supplier_id" Type="Int32" />
+    <NavigationProperty Name="tb_m_supplier" Relationship="Self.FK_dbo_tb_item_dbo_tb_m_supplier_Supplier_id" FromRole="tb_item" ToRole="tb_m_supplier" />
+  </EntityType>
+  <EntityType Name="tb_m_supplier">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="tb_item" Relationship="Self.FK_dbo_tb_item_dbo_tb_m_supplier_Supplier_id" FromRole="tb_m_supplier" ToRole="tb_item" />
+  </EntityType>
+  <Association Name="FK_dbo_tb_item_dbo_tb_m_supplier_Supplier_id">
+    <End Role="tb_m_supplier" Type="Self.tb_m_supplier" Multiplicity="0..1" />
+    <End Role="tb_item" Type="Self.tb_item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_m_supplier">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_item">
+        <PropertyRef Name="Supplier_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Bootcamp32Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tb_item" EntityType="Self.tb_item" />
+    <EntitySet Name="tb_m_supplier" EntityType="Self.tb_m_supplier" />
+    <AssociationSet Name="FK_dbo_tb_item_dbo_tb_m_supplier_Supplier_id" Association="Self.FK_dbo_tb_item_dbo_tb_m_supplier_Supplier_id">
+      <End Role="tb_m_supplier" EntitySet="tb_m_supplier" />
+      <End Role="tb_item" EntitySet="tb_item" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
